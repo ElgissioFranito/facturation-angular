@@ -4,14 +4,14 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../header/header.component';
 
 @Component({
-    selector: 'app-main-layout',
-    imports: [RouterOutlet, SidebarComponent, HeaderComponent],
-    standalone: true,
-    template: `
+  selector: 'app-main-layout',
+  imports: [RouterOutlet, SidebarComponent, HeaderComponent],
+  standalone: true,
+  template: `
     <div class="min-h-screen bg-background text-foreground flex">
       <app-sidebar></app-sidebar>
       
-      <div class="flex-1 flex flex-col ml-64 transition-all duration-300">
+      <div class="flex-1 flex flex-col md:ml-64 transition-all duration-300">
         <app-header></app-header>
         
         <main class="flex-1 p-6 overflow-y-auto">

@@ -22,6 +22,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 
 ## Components
 
+- Use typescript and html separated files
 - Keep components small and focused on a single responsibility
 - Use `input()` and `output()` functions instead of decorators
 - Use `computed()` for derived state

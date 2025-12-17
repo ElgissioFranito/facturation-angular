@@ -1,12 +1,13 @@
 import { Component, inject, computed } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { InvoiceService } from '../../../../core/services/api/invoice.service';
+import { CompanyService } from '../../../../core/services/api/company.service';
 
 @Component({
-    selector: 'app-recent-activity',
-    standalone: true,
-    imports: [CommonModule, CurrencyPipe, DatePipe],
-    template: `
+  selector: 'app-recent-activity',
+  standalone: true,
+  imports: [CommonModule, CurrencyPipe],
+  template: `
     <div class="space-y-8">
       @for (invoice of recentInvoices(); track invoice.id) {
         <div class="flex items-center">
@@ -18,7 +19,7 @@ import { InvoiceService } from '../../../../core/services/api/invoice.service';
             <p class="text-sm text-muted-foreground">{{ invoice.id }}</p>
           </div>
           <div class="ml-auto font-medium">
-            +{{ invoice.total | currency:'EUR' }}
+            +{{ invoice.total | currency:currencyCode():'symbol':'1.0-0' }}
           </div>
         </div>
       }
@@ -29,11 +30,14 @@ import { InvoiceService } from '../../../../core/services/api/invoice.service';
   `
 })
 export class RecentActivityComponent {
-    invoiceService = inject(InvoiceService);
-    invoices = this.invoiceService.getInvoices();
+  invoiceService = inject(InvoiceService);
+  companyService = inject(CompanyService);
+  currencyCode = computed(() => this.companyService.currentSettings().currency);
 
-    recentInvoices = computed(() => {
-        return this.invoices()
-            .slice(0, 5); // Just take the first 5 for now
-    });
+  invoices = this.invoiceService.getInvoices();
+
+  recentInvoices = computed(() => {
+    return this.invoices()
+      .slice(0, 5); // Just take the first 5 for now
+  });
 }

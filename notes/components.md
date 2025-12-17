@@ -31,10 +31,11 @@
   * Calcul automatique TVA/total
   * Prévisualisation en temps réel
   * Génération PDF (mock avec pdfmake)
+  * ajout signature / cachet
   
 - InvoiceListComponent :
   * Table avec filtres (statut, date, client)
-  * Actions : Voir, Dupliquer, Télécharger PDF, Marquer payée
+  * Actions : Voir, Dupliquer, Télécharger PDF, Marquer payée, Imprimer
   * Status badges : Payé/En attente/En retard
 
 
@@ -47,14 +48,16 @@
 ## Receipts page :
 - Liste reçus avec datatable 
 - Données mockées : 5-6 reçus récurrents
-- Actions : Ajouter/Éditer/Supprimer
+- Actions : Ajouter/Supprimer/Imprimer/Télécharger PDF
 - Stockage dans localStorage pour persistance
+- Actions : edition + ajout signature + cachet
 
 
 ## Settings page :
 - Formulaire d'édition profil
 - Upload logo (simulé)
 - Gestion devise, taux TVA
+- changement de theme (dark/light)
 
 
 # Mocks exemples :

@@ -7,6 +7,7 @@ import { TableComponent, TableHeaderComponent, TableBodyComponent, TableRowCompo
 import { ButtonComponent } from '../../shared/components/ui/button/button.component';
 import { InputComponent } from '../../shared/components/ui/input/input.component';
 import { ProductDialogComponent } from './components/product-dialog/product-dialog.component';
+import { CompanyService } from '../../core/services/api/company.service';
 
 @Component({
   selector: 'app-products-page',
@@ -37,32 +38,35 @@ import { ProductDialogComponent } from './components/product-dialog/product-dial
 
       <div class="rounded-md border border-border">
         <app-table>
-          <app-table-header>
-            <app-table-row>
-              <app-table-head>Nom</app-table-head>
-              <app-table-head>Description</app-table-head>
-              <app-table-head class="text-right">Tarif</app-table-head>
-              <app-table-head class="text-right">TVA (%)</app-table-head>
-              <app-table-head class="w-[50px]"></app-table-head>
-            </app-table-row>
-          </app-table-header>
-          <app-table-body>
+          <thead app-table-header>
+            <tr app-table-row>
+              <th app-table-head>Nom</th>
+              <th app-table-head>Description</th>
+              <th app-table-head class="text-right">Tarif</th>
+              <th app-table-head class="text-right">TVA (%)</th>
+              <th app-table-head class="w-[50px]"></th>
+            </tr>
+          </thead>
+          <tbody app-table-body>
             @for (product of filteredProducts(); track product.id) {
-              <app-table-row>
-                <app-table-cell class="font-medium">{{ product.name }}</app-table-cell>
-                <app-table-cell class="text-muted-foreground">{{ product.description }}</app-table-cell>
-                <app-table-cell class="text-right">
-                  {{ product.rate | currency:'EUR' }} / {{ product.unit }}
-                </app-table-cell>
-                <app-table-cell class="text-right">{{ product.taxRate }}%</app-table-cell>
-                <app-table-cell>
+              <tr app-table-row>
+                <td app-table-cell class="font-medium">{{ product.name }}</td>
+                <td app-table-cell class="text-muted-foreground">{{ product.description }}</td>
+                <td app-table-cell class="text-right">
+                  {{ product.rate | currency:currencyCode():'symbol':'1.2-2' }} / {{ product.unit }}
+                </td>
+                <td app-table-cell class="text-right">{{ product.taxRate }}%</td>
+                <td app-table-cell>
                   <button app-button variant="ghost" size="icon" (click)="editProduct(product)">
                     <lucide-icon name="settings" class="h-4 w-4"></lucide-icon>
                   </button>
-                </app-table-cell>
-              </app-table-row>
+                  <button app-button variant="ghost" size="icon" class="text-destructive hover:bg-destructive/10" (click)="deleteProduct(product.id)">
+                    <lucide-icon name="trash-2" class="h-4 w-4"></lucide-icon>
+                  </button>
+                </td>
+              </tr>
             }
-          </app-table-body>
+          </tbody>
         </app-table>
       </div>
     </div>
@@ -70,6 +74,9 @@ import { ProductDialogComponent } from './components/product-dialog/product-dial
 })
 export class ProductsPageComponent {
   productService = inject(ProductService);
+  companyService = inject(CompanyService);
+  currencyCode = computed(() => this.companyService.currentSettings().currency);
+
   products = this.productService.getProducts();
   filterText = signal('');
 
@@ -97,5 +104,11 @@ export class ProductsPageComponent {
   editProduct(product: Product) {
     this.selectedProduct.set({ ...product });
     this.dialogOpen.set(true);
+  }
+
+  deleteProduct(id: number) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce service/produit ?')) {
+      this.productService.deleteProduct(id);
+    }
   }
 }

@@ -42,7 +42,7 @@ import { LabelComponent } from '../../../shared/components/ui/label/label.compon
           @if (isSent()) {
             <div class="rounded-lg bg-green-50 p-4 text-green-800 dark:bg-green-900/30 dark:text-green-300">
               <div class="flex items-center">
-                <lucide-icon name="check-circle" class="mr-2 h-4 w-4"></lucide-icon>
+                <lucide-icon name="circle-check" class="mr-2 h-4 w-4"></lucide-icon>
                 <p class="text-sm font-medium">Email envoyé ! Vérifiez votre boîte de réception.</p>
               </div>
             </div>

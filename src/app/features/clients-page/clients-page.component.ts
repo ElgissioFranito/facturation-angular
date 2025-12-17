@@ -7,6 +7,7 @@ import { TableComponent, TableHeaderComponent, TableBodyComponent, TableRowCompo
 import { ButtonComponent } from '../../shared/components/ui/button/button.component';
 import { InputComponent } from '../../shared/components/ui/input/input.component';
 import { ClientDialogComponent } from './components/client-dialog/client-dialog.component';
+import { CompanyService } from '../../core/services/api/company.service';
 
 @Component({
   selector: 'app-clients-page',
@@ -37,36 +38,39 @@ import { ClientDialogComponent } from './components/client-dialog/client-dialog.
 
       <div class="rounded-md border border-border">
         <app-table>
-          <app-table-header>
-            <app-table-row>
-              <app-table-head>Nom</app-table-head>
-              <app-table-head>Email</app-table-head>
-              <app-table-head>Téléphone</app-table-head>
-              <app-table-head>Statut</app-table-head>
-              <app-table-head class="text-right">Total Facturé</app-table-head>
-              <app-table-head class="w-[50px]"></app-table-head>
-            </app-table-row>
-          </app-table-header>
-          <app-table-body>
+          <thead app-table-header>
+            <tr app-table-row>
+              <th app-table-head>Nom</th>
+              <th app-table-head>Email</th>
+              <th app-table-head>Téléphone</th>
+              <th app-table-head>Statut</th>
+              <th app-table-head class="text-right">Total Facturé</th>
+              <th app-table-head class="w-[50px]"></th>
+            </tr>
+          </thead>
+          <tbody app-table-body>
             @for (client of filteredClients(); track client.id) {
-              <app-table-row>
-                <app-table-cell class="font-medium">{{ client.name }}</app-table-cell>
-                <app-table-cell>{{ client.email }}</app-table-cell>
-                <app-table-cell>{{ client.phone }}</app-table-cell>
-                <app-table-cell>
+              <tr app-table-row>
+                <td app-table-cell class="font-medium">{{ client.name }}</td>
+                <td app-table-cell>{{ client.email }}</td>
+                <td app-table-cell>{{ client.phone }}</td>
+                <td app-table-cell>
                   <span [class]="getStatusClass(client.status)">
                     {{ client.status }}
                   </span>
-                </app-table-cell>
-                <app-table-cell class="text-right">{{ client.totalInvoiced | currency:'EUR' }}</app-table-cell>
-                <app-table-cell>
+                </td>
+                <td app-table-cell class="text-right">{{ client.totalInvoiced | currency:currencyCode():'symbol':'1.2-2' }}</td>
+                <td app-table-cell>
                   <button app-button variant="ghost" size="icon" (click)="editClient(client)">
                     <lucide-icon name="settings" class="h-4 w-4"></lucide-icon>
                   </button>
-                </app-table-cell>
-              </app-table-row>
+                  <button app-button variant="ghost" size="icon" class="text-destructive hover:bg-destructive/10" (click)="deleteClient(client.id)">
+                    <lucide-icon name="trash-2" class="h-4 w-4"></lucide-icon>
+                  </button>
+                </td>
+              </tr>
             }
-          </app-table-body>
+          </tbody>
         </app-table>
       </div>
     </div>
@@ -74,6 +78,9 @@ import { ClientDialogComponent } from './components/client-dialog/client-dialog.
 })
 export class ClientsPageComponent {
   clientService = inject(ClientService);
+  companyService = inject(CompanyService);
+  currencyCode = computed(() => this.companyService.currentSettings().currency);
+
   clients = this.clientService.getClients();
   filterText = signal('');
 
@@ -107,5 +114,11 @@ export class ClientsPageComponent {
   editClient(client: Client) {
     this.selectedClient.set({ ...client });
     this.dialogOpen.set(true);
+  }
+
+  deleteClient(id: number) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce client ?')) {
+      this.clientService.deleteClient(id);
+    }
   }
 }
