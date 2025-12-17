@@ -77,7 +77,7 @@ export class PdfService {
             `${item.quantity}`,
             this.formatCurrency(item.unitPrice, currencyCode),
             `${item.taxRate}%`,
-            this.formatCurrency(item.total, currencyCode)
+            this.formatCurrency(item.unitPrice * item.quantity, currencyCode)
         ]);
 
         autoTable(doc, {

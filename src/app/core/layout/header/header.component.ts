@@ -22,7 +22,7 @@ import { LayoutService } from '../../services/ui/layout.service';
 
       <div class="flex items-center gap-4">
         <div class="flex items-center gap-2">
-          <div class="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+          <div class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center text-primary font-bold">
             {{ userInitial() }}
           </div>
           <span class="text-sm font-medium hidden sm:block">{{ authService.currentUser()?.name }}</span>

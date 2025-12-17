@@ -86,7 +86,7 @@ import { CompanyService } from '../../../core/services/api/company.service';
                                             <td class="py-3">{{ item.description || item.productName }}</td>
                                             <td class="py-3 text-right">{{ item.unitPrice | currency:currencyCode():'symbol':'1.2-2' }}</td>
                                             <td class="py-3 text-right">{{ item.quantity }}</td>
-                                            <td class="py-3 text-right font-medium">{{ item.total | currency:currencyCode():'symbol':'1.2-2' }}</td>
+                                            <td class="py-3 text-right font-medium">{{ item.unitPrice * item.quantity | currency:currencyCode():'symbol':'1.2-2' }}</td>
                                         </tr>
                                     }
                                 </tbody>

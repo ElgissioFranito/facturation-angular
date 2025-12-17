@@ -9,19 +9,35 @@ import { InputComponent } from '../../../shared/components/ui/input/input.compon
 import { LabelComponent } from '../../../shared/components/ui/label/label.component';
 
 @Component({
-    selector: 'app-login',
-    standalone: true,
-    imports: [
-        CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule,
-        ButtonComponent, InputComponent, LabelComponent
-    ],
-    template: `
+  selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule,
+    ButtonComponent, InputComponent, LabelComponent
+  ],
+  styleUrls: ['./login.component.scss'],
+  template: `
     <div class="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div class="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-        <div class="absolute inset-0 bg-primary"></div>
+      <div class="relative hidden h-full flex-col p-10 text-white dark:border-r lg:flex">
+        <div class="absolute inset-0">
+          		<div class="area">
+                <ul class="circles">
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div>
+        </div>
         <div class="relative z-20 flex items-center text-lg font-medium">
           <lucide-icon name="receipt" class="mr-2 h-6 w-6"></lucide-icon>
-          Freelance Facturation
+          Ma Facturation Freelance
         </div>
         <div class="relative z-20 mt-auto">
           <blockquote class="space-y-2">
@@ -86,30 +102,30 @@ import { LabelComponent } from '../../../shared/components/ui/label/label.compon
   `
 })
 export class LoginComponent {
-    private fb = inject(FormBuilder);
-    private authService = inject(AuthService);
-    isLoading = signal(false);
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  isLoading = signal(false);
 
-    loginForm = this.fb.group({
-        email: ['demo@freelance.com', [Validators.required, Validators.email]],
-        password: ['demo123', [Validators.required]]
-    });
+  loginForm = this.fb.group({
+    email: ['demo@freelance.com', [Validators.required, Validators.email]],
+    password: ['demo123', [Validators.required]]
+  });
 
-    onSubmit() {
-        if (this.loginForm.valid) {
-            this.isLoading.set(true);
-            const { email, password } = this.loginForm.value;
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.isLoading.set(true);
+      const { email, password } = this.loginForm.value;
 
-            this.authService.login(email!, password!).subscribe({
-                next: () => {
-                    // Navigation handled in service
-                },
-                error: (err) => {
-                    console.error(err);
-                    this.isLoading.set(false);
-                    // Show error message (could integrate toast later)
-                }
-            });
+      this.authService.login(email!, password!).subscribe({
+        next: () => {
+          // Navigation handled in service
+        },
+        error: (err) => {
+          console.error(err);
+          this.isLoading.set(false);
+          // Show error message (could integrate toast later)
         }
+      });
     }
+  }
 }

@@ -15,13 +15,28 @@ import { LabelComponent } from '../../../shared/components/ui/label/label.compon
         CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule,
         ButtonComponent, InputComponent, LabelComponent
     ],
+    styleUrls: ['./register.component.scss'],
     template: `
     <div class="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div class="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-        <div class="absolute inset-0 bg-primary"></div>
+      <div class="relative hidden h-full flex-col p-10 text-white dark:border-r lg:flex">
+        <div class="absolute inset-0">
+          		<div class="area">
+                <ul class="circles">
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div></div>
         <div class="relative z-20 flex items-center text-lg font-medium">
           <lucide-icon name="receipt" class="mr-2 h-6 w-6"></lucide-icon>
-          Freelance Facturation
+          Ma Freelance Facturation
         </div>
         <div class="relative z-20 mt-auto">
           <blockquote class="space-y-2">
